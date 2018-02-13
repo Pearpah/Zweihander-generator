@@ -1,0 +1,326 @@
+<html>
+<head>
+</head>
+<body onload="init()">
+    <div id="name"></div>
+    <div id="about">
+        <div id="age"></div>
+        <div id="sex"></div>
+        <div id="race"></div>
+        <div id="racial"></div>
+        <div id="profession"></div>
+        <div id="weight"></div>
+        <div id="height"></div>
+        <div id="eyes"></div>
+        <div id="hair"></div>        
+    </div>
+    <div id="attr">
+        Combat : <div id="combat"></div>
+        Brawn : <div id="brawn"></div>
+        Agility : <div id="agility"></div>
+        Perception : <div id="perception"></div>
+        Intelligence : <div id="intelligence"></div>
+        Will Power : <div id="willpower"></div>
+        Fellowship : <div id="fellowship"></div>
+    </div>
+    <div id="skills"></div>
+<body>
+
+<script>
+    function generateCharacter()
+    {
+        var tmp = new character();
+        tmp.name = "test";
+        tmp.age = los();        
+        var racialMods      = getFrom(los(),race);
+        tmp.race            = getFrom(0,racialMods);
+        tmp.racial          = getFrom(los(),racialMods);
+        var archetyp        = getFrom(los(),archetypes);
+        tmp.archetype       = getFrom(0,archetyp);
+        tmp.profession      = getFrom(los(),archetyp);
+        tmp.combat  = throwDices(3,10)+25;
+        tmp.brawn   = throwDices(3,10)+25;
+        tmp.agility = throwDices(3,10)+25;
+        tmp.perception = throwDices(3,10)+25;
+        tmp.intelligence = throwDices(3,10)+25;
+        tmp.willpower = throwDices(3,10)+25;
+        tmp.fellowship = throwDices(3,10)+25;
+
+        return tmp;
+    }
+
+    function character()
+    {
+        this.name;
+        this.age;
+        this.race;
+        this.profession;
+        this.weight;
+        this.height;
+        this.eyes;
+        this.hair;
+        this.racial;
+        this.archetype;
+
+        this.combat;
+        this.brawn;
+        this.agility;
+        this.perception;
+        this.intelligence;
+        this.willpower;
+        this.fellowship;
+        
+        this.skills;
+    }
+
+    function throwDices(quantity, value)
+    {
+        var sum=0;
+        for(var i=0;i<quantity;i++)
+        {
+            sum+=Math.ceil(Math.random()*value);
+        }
+        return sum;
+    }
+
+
+    function init()
+    {
+        var tmp = generateCharacter();
+        fillTheHtml(tmp);
+    }
+
+    function fillTheHtml(char)
+    {
+        document.getElementById("name").innerHTML=char.name;
+        document.getElementById("age").innerHTML=char.age;
+        document.getElementById("race").innerHTML=char.race;
+        document.getElementById("profession").innerHTML=char.profession;
+        document.getElementById("racial").innerHTML=char.racial;
+        document.getElementById("weight").innerHTML=char.weight;
+        document.getElementById("height").innerHTML=char.height;
+        document.getElementById("eyes").innerHTML=char.eyes;
+        document.getElementById("hair").innerHTML=char.hair;
+        document.getElementById("combat").innerHTML=char.combat;
+        document.getElementById("brawn").innerHTML=char.brawn;
+        document.getElementById("agility").innerHTML=char.agility;
+        document.getElementById("perception").innerHTML=char.perception;
+        document.getElementById("intelligence").innerHTML=char.intelligence;
+        document.getElementById("willpower").innerHTML=char.willpower;
+        document.getElementById("fellowship").innerHTML=char.fellowship;
+    }
+
+    function los()
+    {
+        return Math.ceil(Math.random()*100);
+    }
+
+    function getFrom(number,dict)
+    {
+        for(;number<=100;number++)
+        {
+            if(dict[number])
+            {
+                return dict[number];
+            }
+        }
+        alert("Błąd przy przeszukiwaniu! Wyjście poza wykres");
+    }
+
+    ///////////////////////
+
+    racialModifiersHuman={ 
+        0:"Human",
+        8:"Blessing in Disguise",
+        16:"Danger Sense",
+        25:"Dauntles",
+        33:"Esoteric Memory",
+        41:"Fortune's Wheel",
+        49:"Grim Resolve",
+        58:"Manifest Destiny",
+        67:"Mixed Bloodline",
+        76:"Mountain Amongst Men",
+        85:"Natural Selection",
+        92:"Noble Savage",
+        100:"Seventh Sense"
+                    }
+    racialModifiersDwarf={
+        0:"Dwarf",
+        8:"Cavesight",
+        16:"Children of the Earth",
+        25:"Consume Alcohol",
+        33:"Dwarven Warfare",
+        41:"Grudgebearer",
+        49:"Ironclad",
+        58:"Oathkeeper",
+        67:"Physical Prowess",
+        76:"Rune-marked Glory",
+        85:"Stentorian Voice",
+        92:"Stoneheaded",
+        100:"Strength of the Mountain"
+    }
+    race={  
+        0:racialModifiersHuman,
+        20:racialModifiersDwarf,
+        // 40:"Gnome",
+        // 60:"Halfling",
+        // 80:"Ogre",
+        // 100:"Elf"
+        100:racialModifiersHuman
+    }
+
+    //////////////////////////////
+
+    archetypeAcademic={
+        0:"Academic",
+        8:"Adherent",
+        16:"Anchorite",
+        25:"Antiquarian",
+        33:"Apothecary",
+        41:"Astrologer",
+        49:"Diabolist",
+        58:"Engineer",
+        67:"Informer",
+        76:"Investigator",
+        85:"Monk",
+        92:"Preacher",
+        100:"Scribe"
+
+    }
+    archetypeCommoner=
+    {
+        0:"Commoner",
+        9:"Artisan",
+        16:"Barber Surgeon",
+        25:"Boatman",
+        33:"Camp Follower",
+        41:"Cheapjack",
+        49:"Coachman",
+        58:"Doomsayer",
+        67:"Jailer",
+        76:"Laborer",
+        85:"Peasant",
+        92:"Rat Catcher",
+        100:"Servant"
+    }
+    archetypeKnave=
+    {
+        0:"Knave",
+        8:"Beggar",
+        16:"Burglar",
+        25:"Charlatan",
+        33:"Footpad",
+        41:"Gamlber",
+        49:"Graverobber",
+        58:"Guttersnipe",
+        67:"Highwayman",
+        76:"Prostitute",
+        85:"Smuggler",
+        92:"Vagabond",
+        100:"Vigilante"
+    }
+    archetypeRanger=
+    {
+        0:"Ranger",
+        8:"Animal Tamer",
+        16:"Bailiff",
+        25:"Bonepicker",
+        33:"Bounty Hunter",
+        41:"Gamekeeper",
+        49:"Hedgewise",
+        58:"Old Believer",
+        67:"Outrider",
+        76:"Pilgrim",
+        85:"Reeve",
+        92:"Slayer",
+        100:"Trapper"
+    }
+    archetypeWarrior=
+    {
+        0:"Warrior",
+        8:"Berserker",
+        16:"Bravo",
+        25:"Buccaneer",
+        33:"Dragoon",
+        41:"Hedge Knight",
+        49:"Man At Arms",
+        58:"Militiaman",
+        67:"Pit Fighter",
+        76:"Puglist",
+        85:"Sellsword",
+        92:"Squire",
+        100:"Watchman"
+    }
+    archetypeSocialite=
+    {
+        0:"Socialite",
+        8:"Anarchist",
+        16:"Courtier",
+        25:"Cultist",
+        33:"Entertainer",
+        41:"Envoy",
+        49:"Fop",
+        58:"Jester",
+        67:"Provocateur",
+        76:"Racketeer",
+        85:"Raconteur",
+        92:"Rake",
+        100:"Valet",
+    }
+    archetypes={
+        15:archetypeAcademic,
+        32:archetypeCommoner,
+        49:archetypeKnave,
+        66:archetypeRanger,
+        83:archetypeSocialite,
+        100:archetypeWarrior,
+    }
+
+    ///////////////////
+
+    bodyTypes=
+    {
+        20:"Frail",
+        40:"Slender",
+        60:"Normal",
+        80:"Husky",
+        100:"Corpulent"
+    }
+
+    socialClass=
+    {
+        60:"Lowborn",
+        90:"Burgher",
+        100:"Aristocrat"
+    }
+
+    alignment={
+4:"Adaptation Mayhem",
+8:"Ambition Tyranny",
+12:"Candor Cruelty",
+16:"Charity Pity",
+20:"Compassion Melancholy",
+24:"Cunning Deceit",
+28:"Dignity Vehemence",
+32:"Diplomacy Hypocrisy",
+36:"Duty Fatalism",
+40:"Enlightenment Detachment",
+44:"Ferocity Hatred",
+48:"Gentility Cowardice",
+52:"Gravitas Vanity",
+56:"Heroism Martyrdom",
+60:"Humility Incompetence",
+64:"Impiety Heresy",
+68:"Independence Rebellion",
+72:"Mystery Exclusion",
+76:"Pride Arrogance",
+80:"Romanticism Lechery",
+84:"Skepticism Cynicism",
+88:"Sophistication Indulgence",
+92:"Wisdom Rancor",
+96:"Wit Scorn",
+100:"Zeal Fanaticism"
+    }
+
+</script>
+</html>
