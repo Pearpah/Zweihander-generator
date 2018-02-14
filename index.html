@@ -1,36 +1,64 @@
 <html>
 <head>
+     <link rel="stylesheet" href="styles.css">
 </head>
 <body onload="init()">
-    <div id="name"></div>
-    <div id="about">
-        <div id="age"></div>
-        <div id="sex"></div>
-        <div id="race"></div>
-        <div id="racial"></div>
-        <div id="profession"></div>
-        <div id="weight"></div>
-        <div id="height"></div>
-        <div id="eyes"></div>
-        <div id="hair"></div>        
+    <div id="container">
+        <div id="name"></div>   
+        <div id="char_container"> 
+            <div id="about">
+                <div id="age"></div>
+                <div id="sex"></div>
+                <div id="race"></div>
+                <div id="archetype"></div>
+                <div id="racial"></div>
+                <div id="profession"></div>
+                <div id="weight"></div>
+                <div id="height"></div>
+                <div id="eyes"></div>
+                <div id="hair"></div>        
+            </div>
+            <div id="attr">
+                <table>
+                    <tr>
+                <th>Combat</th><th class="valueStats" id="combat"></th>
+                    </tr>
+                    <tr>
+                <th>Brawn</th> <th class="valueStats" id="brawn"></th>
+                    </tr>
+                    <tr>
+                <th>Agility</th> <th class="valueStats" id="agility"></th>
+                    </tr>
+                    <tr>
+                <th>Perception</th> <th class="valueStats" id="perception"></th>
+                    </tr>
+                    <tr>
+                <th>Intelligence</th> <th class="valueStats" id="intelligence"></th>
+                    </tr>
+                    <tr>
+                <th>Will Power</th> <th class="valueStats" id="willpower"></th>
+                    </tr>
+                    <tr>
+                <th>Fellowship</th> <th class="valueStats" id="fellowship"></th>
+                    </tr>
+                    <tr>
+                <th>Sum</ht>        <th class="valueStats box" id="sum"></th>   
+                    </tr>
+                    <tr>
+                <th>Average</ht>    <th class="box valueStats" id="average"></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="skills"></div>
     </div>
-    <div id="attr">
-        Combat : <div id="combat"></div>
-        Brawn : <div id="brawn"></div>
-        Agility : <div id="agility"></div>
-        Perception : <div id="perception"></div>
-        Intelligence : <div id="intelligence"></div>
-        Will Power : <div id="willpower"></div>
-        Fellowship : <div id="fellowship"></div>
-    </div>
-    <div id="skills"></div>
 <body>
 
 <script>
     function generateCharacter()
     {
         var tmp = new character();
-        tmp.name = "test";
+        tmp.name = nameGenerator();;
         tmp.age = los();        
         var racialMods      = getFrom(los(),race);
         tmp.race            = getFrom(0,racialMods);
@@ -95,7 +123,11 @@
         document.getElementById("name").innerHTML=char.name;
         document.getElementById("age").innerHTML=char.age;
         document.getElementById("race").innerHTML=char.race;
-        document.getElementById("profession").innerHTML=char.profession;
+        document.getElementById("profession").innerHTML= char.profession;
+        document.getElementById("archetype").innerHTML= char.archetype;
+        var sum = char.combat+char.brawn+char.agility+char.intelligence+char.perception+char.willpower+char.fellowship;
+        document.getElementById("sum").innerHTML= sum;
+        document.getElementById("average").innerHTML = (sum/7).toFixed(2);
         document.getElementById("racial").innerHTML=char.racial;
         document.getElementById("weight").innerHTML=char.weight;
         document.getElementById("height").innerHTML=char.height;
@@ -125,6 +157,19 @@
             }
         }
         alert("Błąd przy przeszukiwaniu! Wyjście poza wykres");
+    }
+
+    function nameGenerator()
+    {
+        var racialMods      = getFrom(los(),race);
+        var racial1          = getFrom(los(),racialMods);
+        var racialMods      = getFrom(los(),race);
+        var racial2          = getFrom(los(),racialMods);
+
+        var name = racial1.substring(0,2+Math.random()*(racial1.length/3))+racial2.substring(1,2+Math.random()*(racial2.length/3));
+
+        return name;
+
     }
 
     ///////////////////////

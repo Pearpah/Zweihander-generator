@@ -1,0 +1,53 @@
+#char_container
+{
+    display:flex;
+    flex-direction: row;
+}
+
+#container
+{    
+    display:inline-flex;
+    flex-direction: column;
+    background-color: #f0e0ae;
+    border-radius: 5px;
+    border-color: #eac97b;
+    border-width: 5px;
+    border-style: double;
+
+    background-image: linear-gradient(90deg, transparent 50%, #fac97b 50%);
+    background-size: 50px 50px;
+    
+}
+
+#char_container
+{
+   
+}
+
+#name
+{
+     font-weight: bold;
+}
+
+.box
+{
+    border-style: solid;
+    background-color:#ecd7d7;
+    color:red;
+}
+
+.valueStats
+{
+    background-color: #B0B0B0;
+    border-radius: 5px;
+    border-color: #404040;
+    border-width: 5px;
+    border-style: double;
+}
+
+body
+{
+background-color:#708090;
+background-size: 64px 128px;
+text-align: center;
+}
