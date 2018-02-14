@@ -50,22 +50,68 @@
                 </table>
             </div>
         </div>
-        <div id="skills"></div>
+        <div id="skills"></div>        
     </div>
+<div id="generator">
+    <select id="selector">
+    <option value="0">Human</option>
+    <option value="20">Dwarf</option>
+    <option value="40">Gnome</option>
+    <option value="60">Halfing</option>
+    <option value="80">Ogre</option>
+    <option value="100">Elf</option>
+    <option value="-1">Random</option>
+    </select>
+    <button id="btnGenerate">GENERATE NEW ONE</button>
+</div>
+
 <body>
 
 <script>
-    function generateCharacter()
+    document.getElementById("btnGenerate").addEventListener("click",function()
     {
+        var option = document.getElementById("selector").value;
+        fillTheHtml(generateCharacter(option));
+    });
+
+    /////
+
+
+
+    function generateCharacter(racialInt)
+    {       
         var tmp = new character();
-        tmp.name = nameGenerator();;
-        tmp.age = los();        
-        var racialMods      = getFrom(los(),race);
+        tmp.name = nameGenerator();
+        tmp.age = los();  
+        var racialMods;      
+        if(racialInt==-1)
+        {       
+            racialMods = getFrom(los(),race);            
+        } 
+        else
+        {
+            racialMods = getFrom(racialInt,race);
+        }
         tmp.race            = getFrom(0,racialMods);
         tmp.racial          = getFrom(los(),racialMods);
         var archetyp        = getFrom(los(),archetypes);
         tmp.archetype       = getFrom(0,archetyp);
         tmp.profession      = getFrom(los(),archetyp);
+        tmp.stats = generateStats();
+        // tmp.combat  = throwDices(3,10)+25;
+        // tmp.brawn   = throwDices(3,10)+25;
+        // tmp.agility = throwDices(3,10)+25;
+        // tmp.perception = throwDices(3,10)+25;
+        // tmp.intelligence = throwDices(3,10)+25;
+        // tmp.willpower = throwDices(3,10)+25;
+        // tmp.fellowship = throwDices(3,10)+25;
+        return tmp;
+    }
+
+
+    function generateStats()
+    {
+        var tmp = new stats();
         tmp.combat  = throwDices(3,10)+25;
         tmp.brawn   = throwDices(3,10)+25;
         tmp.agility = throwDices(3,10)+25;
@@ -73,8 +119,18 @@
         tmp.intelligence = throwDices(3,10)+25;
         tmp.willpower = throwDices(3,10)+25;
         tmp.fellowship = throwDices(3,10)+25;
-
         return tmp;
+    }
+
+    function stats()
+    {
+        this.combat  ;
+        this.brawn   ;
+        this.agility ;
+        this.perception ;
+        this.intelligence ;
+        this.willpower ;
+        this.fellowship ;
     }
 
     function character()
@@ -114,7 +170,7 @@
 
     function init()
     {
-        var tmp = generateCharacter();
+        var tmp = generateCharacter(-1);
         fillTheHtml(tmp);
     }
 
@@ -125,7 +181,7 @@
         document.getElementById("race").innerHTML=char.race;
         document.getElementById("profession").innerHTML= char.profession;
         document.getElementById("archetype").innerHTML= char.archetype;
-        var sum = char.combat+char.brawn+char.agility+char.intelligence+char.perception+char.willpower+char.fellowship;
+        var sum = char.stats.combat+char.stats.brawn+char.stats.agility+char.stats.intelligence+char.stats.perception+char.stats.willpower+char.stats.fellowship;
         document.getElementById("sum").innerHTML= sum;
         document.getElementById("average").innerHTML = (sum/7).toFixed(2);
         document.getElementById("racial").innerHTML=char.racial;
@@ -133,13 +189,13 @@
         document.getElementById("height").innerHTML=char.height;
         document.getElementById("eyes").innerHTML=char.eyes;
         document.getElementById("hair").innerHTML=char.hair;
-        document.getElementById("combat").innerHTML=char.combat;
-        document.getElementById("brawn").innerHTML=char.brawn;
-        document.getElementById("agility").innerHTML=char.agility;
-        document.getElementById("perception").innerHTML=char.perception;
-        document.getElementById("intelligence").innerHTML=char.intelligence;
-        document.getElementById("willpower").innerHTML=char.willpower;
-        document.getElementById("fellowship").innerHTML=char.fellowship;
+        document.getElementById("combat").innerHTML=char.stats.combat;
+        document.getElementById("brawn").innerHTML=char.stats.brawn;
+        document.getElementById("agility").innerHTML=char.stats.agility;
+        document.getElementById("perception").innerHTML=char.stats.perception;
+        document.getElementById("intelligence").innerHTML=char.stats.intelligence;
+        document.getElementById("willpower").innerHTML=char.stats.willpower;
+        document.getElementById("fellowship").innerHTML=char.stats.fellowship;
     }
 
     function los()
@@ -204,14 +260,76 @@
         92:"Stoneheaded",
         100:"Strength of the Mountain"
     }
+        racialModifiersGnome={
+        0:"Gnome",
+        8:"Clockworks of War",
+        16:"Children of the Earth",
+        25:"Denizen of Stonel",
+        33:"Dungeons Deep",
+        41:"Escape Artist",
+        49:"Goldbergian",
+        58:"Hocus Pocus",
+        67:"Metrognome",
+        76:"Thieving Stunties",
+        85:"Tunnel Vision",
+        92:"Underfoot",
+        100:"Wretched Prankster"
+    }
+    racialModifiersHalfling={
+        0:"Halfling",
+        8:"Beguiler",
+        16:"Cat-like Reflexes",
+        25:"Craven",
+        33:"Farsight",
+        41:"Fettered Chaos",
+        49:"Fieldwarden",
+        58:"Fleet-footed",
+        67:"Hijnks",
+        76:"Kleptomania",
+        85:"Low Blow",
+        92:"Memento",
+        100:"Pintsized"
+    }
+
+    racialModifiersOgre={
+        0:"Ogre",
+        8:"Broad-bellied",
+        16:"Cast Iron Stomach",
+        25:"Cruisin’ For A Bruisin",
+        33:"Frightening Bellow",
+        41:"Gut-Plate",
+        49:"Hunger Pangs",
+        58:"Mighty Thews",
+        67:"Odd Couple",
+        76:"Rotgut Spray",
+        85:"Slamdance",
+        92:"Thick Lining",
+        100:"Wendigo"
+    }
+
+        racialModifiersElf={
+        0:"Elf",
+        8:"Bewitching",
+        16:"Beyond the Veil",
+        25:"Deadly Aim",
+        33:"Enduring Mortality",
+        41:"Fey Treachery",
+        49:"Firstborn",
+        58:"Kindred Warband",
+        67:"Lament of the Ages",
+        76:"Mediative Healing",
+        85:"Nature's Own",
+        92:"Nighteyes",
+        100:"Warrior's Tattoo"
+    }
+
     race={  
         0:racialModifiersHuman,
         20:racialModifiersDwarf,
-        // 40:"Gnome",
-        // 60:"Halfling",
-        // 80:"Ogre",
-        // 100:"Elf"
-        100:racialModifiersHuman
+        40:racialModifiersGnome,
+        60:racialModifiersHalfling,
+        80:racialModifiersOgre,
+        100:racialModifiersElf        
     }
 
     //////////////////////////////
